@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Raleway:400,300,600" />
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/normalize/4.0.0/normalize.min.css" />
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css" />
+	<title>Catalog application</title> 
+</head>
+<body>
+  <div class="container">
+    <table>
+    <h2>Catalog</h2>
+    <div class="row" th:each="cat : ${catalog}">
+      <tr>
+      <div class="eight columns">
+        <form th:method="put" th:action="@{/catalog}">	
+			<input type="hidden" name="id" th:value="${cat.id}" />
+			<input type="hidden" name="name" th:value="${cat.name}" />          
+          	<td><span th:text="${cat.name}"></span></td>
+          	<td><input type="text" name="description" th:value="${cat.description}" /></td>
+          	<td><input type="text" name="cost" th:value="${cat.cost}" /></td>
+          	<td><button class="button-primary u-half-width" type="submit">Update</button></td>          	
+        </form>
+      </div>
+      <div class="two columns">
+        <form th:method="delete" th:action="@{/catalog}">
+          <input type="hidden" name="id" th:value="${cat.id}" />
+          <td>
+          <button class="button-primary u-half-width" type="submit">Delete</button>
+          </td>
+        </form>
+      </div>
+    </tr>  
+    </div>
+    </table>
+    <hr />
+    <h2> Add Catalog</h2>
+    <form method="post" th:action="@{/catalog}" th:object="${newCatalog}">
+      <div class="row">
+        <div class="seven columns">
+          <input type="text" placeholder="Name of Catalog" class="u-full-width" th:field="*{name}" />
+          <input type="text" placeholder="Description of Catalog" class="u-full-width" th:field="*{description}" />
+          <input type="text" placeholder="Cost of Item" class="u-full-width" th:field="*{cost}" />
+          <span th:if="${error != null}" th:text="${error}"></span>
+        </div>
+        <div class="two columns">
+          <button type="submit" class="button-primary u-half-width">&nbsp;Add&nbsp;</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</body>
+</html>

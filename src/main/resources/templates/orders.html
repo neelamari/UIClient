@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Raleway:400,300,600" />
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/normalize/4.0.0/normalize.min.css" />
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css" />
+	<title>Order application</title> 
+</head>
+<body>
+  <div class="container">
+    <h3>Orders</h3>
+    <table>
+    <tr>
+    		<td>Customer</td>
+    		<td>Product</td>
+    		<td>Tracking</td>
+    		<td>Units</td>
+    		<td>Cost</td>
+    		<td>Status</td>
+    		<td></td>
+    		<td></td>
+    </tr>
+    <div class="row" th:each="order : ${orders}">
+        <tr>
+        <div class="nine columns">
+            <form th:method="put" th:action="@{/orders}">
+            		<input type="hidden" name="_id" th:value="${order._id}" />
+                <td><input type="text" size="14" name="customer" th:value="${order.customer}" readonly="readonly"/></td>
+                <td><input type="text" size="14" name="product" th:value="${order.product}" readonly="readonly"/></td>
+                <td><input type="text" size="5" name="units" th:value="${order.units}" /></td>
+                <td><input type="text" size="10" name="cost" th:value="${order.cost}" /></td>
+                <td><input type="text" size="16" name="tracking_number" th:value="${order.tracking_number}" readonly="readonly"/></td>                
+                <td><input type="text" size="14" name="tracking_status" th:value="${order.tracking_status}" /></td>
+                <td><button class="button-primary" type="submit">Update</button></td>
+            </form>
+		</div>
+		<div class="two columns">
+            <form th:method="delete" th:action="@{/orders}">
+            		<input type="hidden" name="_id" th:value="${order._id}" />
+            		<td><button class="button-primary u-quarter-width" type="submit">Delete</button></td>
+            </form>
+        </div>
+        </tr>
+    </div> 
+    </table>
+    <h3> Add Order</h3>
+    <form method="post" th:action="@{/orders}" th:object="${newOrders}">
+      <div class="row">
+        <div class="nine columns">
+          <input type="text" placeholder="Customer" class="u-full-width" th:field="*{customer}" />
+          <input type="text" placeholder="Product" class="u-full-width" th:field="*{product}" />
+          <input type="text" placeholder="Units" class="u-full-width" th:field="*{units}" />
+          <input type="text" placeholder="Cost" class="u-full-width" th:field="*{cost}" />
+          <input type="text" placeholder="Tracking Number" class="u-full-width" th:field="*{tracking_number}" />
+          <input type="text" placeholder="Status" class="u-full-width" th:field="*{tracking_status}" />
+          <span th:if="${error != null}" th:text="${error}"></span>
+        </div>
+        <div class="two columns">
+          <button type="submit" class="button-primary u-quarter-width">&nbsp;Add&nbsp;</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</body>
+</html>
